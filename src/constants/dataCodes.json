@@ -1,0 +1,32 @@
+{
+  "200": {
+    "name": "OK",
+    "description": "Essa requisição foi bem sucedida. O significado do sucesso varia de acordo com o método invocado.",
+    "response": true
+  },
+  "201": {
+    "name": "Criado",
+    "description": "A requisição foi bem sucedida e um novo recurso foi criado como resultado.",
+    "response": true
+  },
+  "230": {
+    "name": "Apagado",
+    "description": "O usuário foi apagado com sucesso.",
+    "response": true
+  },
+  "404": {
+    "name": "Não Encontrado",
+    "description": "O bot não pode encontrar o recurso solicitado.",
+    "response": false
+  },
+  "406": {
+    "name": "Não aceito",
+    "description": "O recurso não foi aceito pelo servidor. Talvez ele não exista mais ou esteja inválido.",
+    "response": false
+  },
+  "409": {
+    "name": "Conflito",
+    "description": "A requisição atual está conflitando com os dados do servidor.",
+    "response": false
+  }
+}

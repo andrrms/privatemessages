@@ -1,0 +1,36 @@
+{
+  "name": "privatemessages",
+  "email": "andremarcia4@gmail.com",
+  "url": "https://github.com/AndreoliBR/privmsgbot",
+  "version": "2.0.0",
+  "main": "src/app.ts",
+  "license": "GPL-3.0",
+  "scripts": {
+    "start": "set NODE_ENV=PRODUCTION && yarn build && yarn db:migrate:latest && node dist/src/app.js",
+    "dev": "set NODE_ENV=DEVELOPMENT && tsnd --respawn --transpile-only src/app.ts",
+    "build": "yarn rimraf ./dist && yarn tsc",
+    "db:migrate:latest": "yarn knex migrate:latest --esm --knexfile dist/knexfile.js"
+  },
+  "dependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/knex": "^0.16.1",
+    "@types/node": "^14.10.1",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.5",
+    "pg": "^8.3.3",
+    "rimraf": "^3.0.2",
+    "sqlite3": "^5.0.0",
+    "telegraf": "^3.38.0",
+    "telegraf-inline-menu": "^5.1.0",
+    "telegraf-session-local": "^2.0.0",
+    "telegraf-stateless-question": "^1.0.0",
+    "telegram-text-entities-filler": "^0.2.0",
+    "typescript": "^4.0.2"
+  },
+  "devDependencies": {
+    "debug": "^4.2.0",
+    "ts-node-dev": "^1.0.0-pre.62"
+  }
+}
