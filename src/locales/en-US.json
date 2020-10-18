@@ -1,0 +1,119 @@
+{
+  "__COMMENT__": "[=====> LANGUAGE SECTION <=====]",
+  "language": {
+    "code": "en-US",
+    "name": "English",
+    "en_name": "English",
+    "flag": "🇺🇸",
+    "maintainers": "@andrrms",
+
+    "__COMMENT__": "This list must remain exactly the same as the standard translation list.",
+    "list": {
+      "ptBR": "🇧🇷 Português Brasileiro",
+      "enUS": "🇺🇸 English"
+    }
+  },
+
+  "__COMMENT__": "[=====> COMMANDS SECTION <=====]",
+  "commands": {
+    "start": {
+      "user": {
+        "new": "Hello 😄\nThis is Private Messages, a bot made to buy and sell paid messages. Your account has been successfully created!\n\nIf you need help, you can use the /help command.",
+        "existing": "Hello 😄\nThis is Private Messages, a bot made to buy and sell paid messages.\n\nIf you need help, you can use the /help command."
+      },
+      "payment": {
+        "once": "ℹ️ <b>Single payment</b>\n\nThe message the user is selling is in a single payment mode. This means that when you buy the message, you will only be charged once, even if you buy the same message again.",
+        "multiple": "ℹ️ <b>Recurring payment</b>\n\nThe message the user is selling is in recurring payment mode. This means that when you buy the message, you will be charged whenever you click buy message."
+      }
+    },
+    "balance": {
+      "user_amount": "<b>${first_name}'s</b> balance if <b>${coins}</b> coins.",
+      "self_amount": "⚖️ Your wallet\n\nYou have <b>${coins}</b> coins.\nVYou have already purchased <b>${buys}</b> messages.",
+      "error": "Unable to get your balance."
+    },
+    "settings": {
+      "settings_body": "⚙️ Settings panel:\n\nUse the buttons below to change the bot settings.",
+      "notifications": {
+        "body": "🔔 Notifications:\n\nSet whether you want to receive bot notifications when someone buys a message from you.",
+        "button": "🔔 Notifications",
+        "toggle_button": "Notifications"
+      },
+      "header": {
+        "body": "💬 Message Header:\n\nHere you can write a custom header to appear in your paid messages. To learn more about, you can use the <code>/help header</code> command.\n\nYour current header is:\n${message}",
+        "button": "💬 Message Header",
+        "change": {
+          "body": "Type the new message to use as a header. You can use the following variables (markdown available):\n\n<code>$value</code> (required) - Displays the message value to be sold.\n<code>$totalamount</code> - Shows your total balance.\n<code>$firstname</code> - Shows your first name.\n<code>$username</code> - Shows your username.\n\nYou can cancel this command at any time using /cancel",
+          "saved": "Header saved successfully.",
+          "need_value_var": "Your message must contain the variable <code>$value</code>.",
+          "button": "✏️ Change header"
+        },
+        "reset": {
+          "button": "↩️ Back to default",
+          "template": "*$firstname* is selling a message for *$valuec*",
+          "success": "You have reset the message to the default."
+        }
+      },
+      "payment": {
+        "body": "💵 Payment:\n\nSet whether you want your messages to be charged only once per user or whether they should pay each time they buy the same message.",
+        "button": "💵 Payments",
+        "single_payment": "Single payment",
+        "multiple_payment": "Recurring payment"
+      },
+      "language": {
+        "body": "🔤 Language:\n\nChoose your language from the list below.",
+        "button": "🔤 Language",
+        "success": "Language changed successfully."
+      }
+    },
+    "restore": {
+      "body": "ℹ Account Restoration\n\nReply this message with your backup key to perform the restore.\n<i>To cancel the restore, use the /cancel command</i>",
+      "success": "Your account has been successfully restored!",
+      "invalid_key": "Could not restore your account because your key is invalid.",
+      "different_key": "Could not restore your account because this key doesn't belong to you.",
+      "error": "Could not restore your account. Contact @andrrms to report this error."
+    },
+    "help": {
+      "standard": "This is Private Messages, a bot for buying and selling paid messages. This bot is just for fun, since its economy has no real value.\nWhen you create your account, you start with 750 coins and can spend them on other paid messages to be able to read them. To sell a message, simply enter the bot user, followed by the message you want to sell. Value options will be shown as soon as you type the message. New features will be added soon.\n\nThis bot was written by @andrrms using NodeJS + Typescript and is published under <i>GPLv3.0</i> license. You can find the repository <a href=\"\">here</a>. You can collaborate with translations <a href=\"\">here</a>.",
+      "header": "ℹ️ About headers\n\nMessage headers are custom texts that appear in your paid message. They are generally used to make the sale more characteristic of the owner or to describe the message being sold. You can use variables to display values in your header, such as your total balance or your first name. When writing a custom header, you <b>must</b> include the <code>$value</code> variable that shows the value of the message to be paid. This is to prevent possible clickbaits.\n\nThe variables you can use are:\n<code>$value</code> (mandatory) - Shows the value of the message to be sold.\n<code>$totalamount</code> - Shows your total balance.\n<code>$firstname</code> - Shows your first name.\n<code>$username</code> - Shows your username."
+    }
+  },
+
+  "__COMMENT__": "[=====> COMMON SECTION <=====]",
+  "common": {
+    "user_not_found": "The user in question was not found.",
+    "command_error": "An error occurred while executing this command.",
+    "generic_error": "An error has occurred.",
+    "admin_only": "You are not allowed to use this command.",
+    "back_button": "Return",
+    "not_saved": "The changes were not saved.",
+    "message_on_private": "You must use this command in a <a href=\"https://t.me/${username}\">private chat</a> with me.",
+    "not_enough_amount": "You don't have enough balance."
+  },
+
+  "__COMMENT__": "[=====> SYSTEM SECTION <=====]",
+  "system": {
+    "callback_query": {
+      "buy_notification": "<a href=\"tg://user?id=${user_id}\">${from_name}</a> bought your message for <b>${value}</b> coins.",
+      "error": "An error occurred while registering the payment."
+    },
+    "inline_query": {
+      "sell_for": "Sell for ${value}c",
+      "buy_for": "Buy for ${value}c",
+      "sell_message": "Sell a message",
+      "user_balance": "Your balance: ${balance}c",
+      "too_long": "Message too long."
+    },
+    "new_member": {
+      "welcome_message": {
+        "group_enabled": "Bot successfully configured. To start using, start a conversation with me.\n\nThis group is enabled to use Pole Canaria.",
+        "group_disabled": "Bot successfully configured. To start using, start a conversation with me.\n\nThis group isn't qualified to use Pole Canaria."
+      }
+    }
+  },
+
+  "__COMMENT__": "[=====> DEVELOPER SECTION <=====]",
+  "dev": {
+    "helloworld": "Hello world.",
+    "replace": "It needs to be replaced in the translation lists."
+  }
+}

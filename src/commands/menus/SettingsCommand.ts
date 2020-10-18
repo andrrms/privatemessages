@@ -3,6 +3,7 @@ import { MenuTemplate } from 'telegraf-inline-menu';
 import { TContextWithState } from '../../utils/interfaces';
 import { sellMsgHasValue } from '../../utils/util';
 import { UserServices } from '../../database/services';
+import { i18n } from '../../app';
 
 const service = new UserServices();
 
@@ -96,16 +97,28 @@ async function setPayOnce(user_id: number, state: boolean) {
   }
 }
 
+async function setLanguage(user_id: number, language: string) {
+  const user = await service.getUserFromId(user_id);
+
+  if (user.response && user.payload) {
+    return await service.setUserLanguage(user_id, language);
+  } else {
+    return false;
+  }
+}
+
 // Menus
 
 export const mainMenu = new MenuTemplate<TContextWithState>((ctx) => {
-  return 'Painel de configurações\n\nUse os botões abaixo para alterar as configurações do bot.'
+  return ctx.i18n.t('commands.settings.settings_body');
 });
 
 // Notifications Submenu
-const notificationSubmenu = new MenuTemplate<TContextWithState>(ctx => '🔔 Notificações:\n\nDefina se você quer receber notificações do bot quando alguém comprar uma mensagem sua.');
+const notificationSubmenu = new MenuTemplate<TContextWithState>(ctx => {
+  return ctx.i18n.t('commands.settings.notifications.body');
+});
 
-notificationSubmenu.toggle('Notificações', 'notifications', {
+notificationSubmenu.toggle((ctx) => ctx.i18n.t('commands.settings.notifications.toggle_button'), 'notifications', {
   set: async (ctx) => {
     const notif = await toggleNotifications(ctx);
     console.log(notif);
@@ -114,20 +127,17 @@ notificationSubmenu.toggle('Notificações', 'notifications', {
   isSet: async (ctx) => await getNotifications(ctx) as boolean,
 });
 
-notificationSubmenu.navigate('Voltar', '..');
+notificationSubmenu.navigate((ctx) => ctx.i18n.t('common.back_button'), '..');
 
-mainMenu.submenu('🔔 Notificações', 'notifications', notificationSubmenu);
+mainMenu.submenu((ctx) => ctx.i18n.t('commands.settings.notifications.button'), 'notifications', notificationSubmenu);
 
 // Header Message Submenu
 
 const headermsgSubmenu = new MenuTemplate<TContextWithState>(
   async ctx => {
     return {
-      text: '💬 Cabeçalho da Mensagem:\n\nAqui você pode escrever um cabeçalho customizado para aparecer nas suas mensagens pagas\\. ' +
-        'Para saber mais sobre, você pode usar o comando `/help header`\\.\n\n' +
-        'A sua mensagem atual é:\n' +
-        `_${await getHeaderMessage(ctx)}_`,
-      parse_mode: 'Markdown'
+      text: ctx.i18n.t('commands.settings.header.body', { message: await getHeaderMessage(ctx) }),
+      parse_mode: 'HTML'
     }
   }
 );
@@ -137,14 +147,8 @@ const headermsgSubmenu = new MenuTemplate<TContextWithState>(
 export const headermsgQuestion = new BaseScene<TContextWithState>('cngheader');
 
 headermsgQuestion.enter(ctx => {
-  ctx.replyWithMarkdown(
-    'Digite a nova mensagem para usar de cabeçalho. As seguintes variáveis estão disponíveis (markdown disponível):\n\n' +
-    '`$value (obrigatório)` - Mostra o valor da mensagem a ser vendida.\n' +
-    '`$totalamount` - Mostra o seu saldo total.\n' +
-    '`$firstname` - Mostra o seu primeiro nome.\n' +
-    '`$username` - Mostra seu nome de usuário.\n\n' +
-    'Você pode cancelar esse comando à qualquer momento usando /cancel',
-    Extra.markdown().markup(Markup.forceReply())
+  ctx.replyWithMarkdown(ctx.i18n.t('commands.settings.header.new.body'),
+    Extra.HTML().markup(Markup.forceReply())
   );
 });
 
@@ -153,17 +157,17 @@ headermsgQuestion.on('message', async (ctx) => {
     const set = await setHeaderMessage(ctx.message.from.id, ctx.message.text);
 
     if (set) {
+      ctx.reply(ctx.i18n.t('commands.settings.header.change.saved'));
       ctx.scene.leave();
-      ctx.reply('Cabeçalho salvo com sucesso.');
     } else {
-      ctx.reply('Sua mensagem precisa conter a variável `$value`.', { parse_mode: 'Markdown', reply_to_message_id: ctx.message.message_id });
+      ctx.reply(ctx.i18n.t('commands.settings.header.change.need_value_var'), { parse_mode: 'HTML', reply_to_message_id: ctx.message.message_id });
     }
   } else {
     return false;
   }
 });
 
-headermsgSubmenu.interact('✏️ Alterar cabeçalho', 'cngheader', {
+headermsgSubmenu.interact((ctx) => ctx.i18n.t('commands.settings.header.change.button'), 'cngheader', {
   do: async (ctx) => {
     ctx.scene.enter('cngheader');
     ctx.answerCbQuery();
@@ -171,16 +175,16 @@ headermsgSubmenu.interact('✏️ Alterar cabeçalho', 'cngheader', {
   }
 });
 
-headermsgSubmenu.interact('↩️ Voltar ao padrão', 'resetheader', {
+headermsgSubmenu.interact((ctx) => ctx.i18n.t('commands.settings.header.reset.button'), 'resetheader', {
   do: async ctx => {
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
-      const set = await setHeaderMessage(ctx.callbackQuery.from.id, '*$firstname* está vendendo uma mensagem por *$valuec*');
+      const set = await setHeaderMessage(ctx.callbackQuery.from.id, ctx.i18n.t('commands.settings.header.reset.template'));
 
       if (set) {
-        ctx.answerCbQuery('Você redefiniu a mensagem para o padrão.');
+        ctx.answerCbQuery(ctx.i18n.t('commands.settings.header.reset.success'));
         return true;
       } else {
-        ctx.answerCbQuery('Ocorreu um erro.');
+        ctx.answerCbQuery(ctx.i18n.t('common.generic_error'));
         return false;
       }
     } else {
@@ -190,11 +194,11 @@ headermsgSubmenu.interact('↩️ Voltar ao padrão', 'resetheader', {
   joinLastRow: true
 });
 
-headermsgSubmenu.navigate('Voltar', '..');
+headermsgSubmenu.navigate((ctx) => ctx.i18n.t('common.back_button'), '..');
 
-mainMenu.submenu('💬 Cabeçalho', 'headermsg', headermsgSubmenu, { joinLastRow: true });
+mainMenu.submenu((ctx) => ctx.i18n.t('commands.settings.header.button'), 'headermsg', headermsgSubmenu, { joinLastRow: true });
 
-const payonceSubmenu = new MenuTemplate<TContextWithState>(ctx => '💵 Pagamento Único:\n\nDefina se você quer que suas mensagens sejam cobradas apenas uma vez por usuário ou se eles deverão pagar sempre que comprarem a mesma mensagem.');
+const payonceSubmenu = new MenuTemplate<TContextWithState>(ctx => ctx.i18n.t('commands.settings.payment.body'));
 
 const paytypes: Record<string, string> = {
   true: 'Compra única',
@@ -228,8 +232,46 @@ payonceSubmenu.select('pmts', paytypes, {
       return false;
     }
   },
+  buttonText: (ctx, key) => {
+    return ctx.i18n.t(`commands.settings.payment.${JSON.parse(key) === true ? 'single_payment' : 'multiple_payment'}`)
+  }
 });
 
-payonceSubmenu.navigate('Voltar', '..');
+payonceSubmenu.navigate((ctx) => ctx.i18n.t('common.back_button'), '..');
 
-mainMenu.submenu('💵 Pagamentos', 'payments', payonceSubmenu);
+mainMenu.submenu((ctx) => ctx.i18n.t('commands.settings.payment.button'), 'payments', payonceSubmenu);
+
+const languageSubmenu = new MenuTemplate<TContextWithState>(ctx => ctx.i18n.t('commands.settings.language.body'));
+
+const languages: Record<string, any> = {
+  ptBR: 'pt-BR',
+  enUS: 'en-US',
+}
+
+languageSubmenu.choose('lang', languages, {
+  do: async (ctx, key) => {
+    if (ctx.callbackQuery && ctx.callbackQuery.from) {
+      const set = await setLanguage(ctx.callbackQuery.from.id, languages[key]);
+      if (set) {
+        ctx.answerCbQuery(ctx.i18n.t('commands.settings.language.success'));
+        return '..';
+      } else {
+        ctx.answerCbQuery(ctx.i18n.t('common.generic_error'));
+        return '..';
+      }
+    } else {
+      return false;
+    }
+  },
+  buttonText: (ctx, key) => {
+    return ctx.i18n.t(`language.list.${key}`);
+  },
+  columns: 2,
+  maxRows: 4
+});
+
+languageSubmenu.navigate((ctx) => ctx.i18n.t('common.back_button'), '..');
+
+mainMenu.submenu((ctx) => ctx.i18n.t('commands.settings.language.button'), 'language', languageSubmenu, {
+  joinLastRow: true
+});

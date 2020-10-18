@@ -1,0 +1,119 @@
+{
+  "__COMMENT__": "[=====> LANGUAGE SECTION <=====]",
+  "language": {
+    "code": "pt-BR",
+    "name": "Português Brasileiro",
+    "en_name": "Brazillian Portuguese",
+    "flag": "🇧🇷",
+    "maintainers": "@andrrms",
+
+    "__COMMENT__": "This list must remain exactly the same as the standard translation list.",
+    "list": {
+      "ptBR": "🇧🇷 Português Brasileiro",
+      "enUS": "🇺🇸 English"
+    }
+  },
+
+  "__COMMENT__": "[=====> COMMANDS SECTION <=====]",
+  "commands": {
+    "start": {
+      "user": {
+        "new": "Olá 😄\nEsse é o Private Messages, um bot feito para comprar e vender mensagens pagas. Sua conta foi criada com sucesso!\n\nSe precisar de ajuda, você pode usar o comando /help",
+        "existing": "Olá 😄\nEsse é o Private Messages, um bot feito para comprar e vender mensagens pagas.\n\nSe precisar de ajuda, você pode usar o comando /help"
+      },
+      "payment": {
+        "once": "ℹ️ <b>Pagamento único</b>\n\nA mensagem que o usuário está vendendo está em modo de pagamento único. Isso significa que, ao comprar a mensagem, você só será cobrado uma única vez, mesmo se comprar novamente a mesma mensagem.",
+        "multiple": "ℹ️ <b>Pagamento recorrente</b>\n\nA mensagem que o usuário está vendendo está em modo de pagamento recorrente. Isso significa que, ao comprar a mensagem, você será cobrado múltiplas vezes sempre que clicar em comprar mensagem."
+      }
+    },
+    "balance": {
+      "user_amount": "O saldo de <b>${first_name}</b> é de <b>${coins}</b> moedas.",
+      "self_amount": "⚖️ Sua carteira\n\nVocê tem <b>${coins}</b> moedas.\nVocê já comprou <b>${buys}</b> mensagens.",
+      "error": "Não foi possível obter seu saldo."
+    },
+    "settings": {
+      "settings_body": "⚙️ Painel de configurações:\n\nUse os botões abaixo para alterar as configurações do bot.",
+      "notifications": {
+        "body": "🔔 Notificações:\n\nDefina se você quer receber notificações do bot quando alguém comprar uma mensagem sua.",
+        "button": "🔔 Notificações",
+        "toggle_button": "Notificações"
+      },
+      "header": {
+        "body": "💬 Cabeçalho da Mensagem:\n\nAqui você pode escrever um cabeçalho customizado para aparecer nas suas mensagens pagas. Para saber mais sobre, você pode usar o comando <code>/help header</code>.\n\nA sua mensagem atual é:\n${message}",
+        "button": "💬 Cabeçalho",
+        "change": {
+          "body": "Digite a nova mensagem para usar de cabeçalho. As seguintes variáveis estão disponíveis (markdown ativo):\n\n<code>$value</code> (obrigatório) - Mostra o valor da mensagem a ser vendida.\n<code>$totalamount</code> - Mostra o seu saldo total.\n<code>$firstname</code> - Mostra o seu primeiro nome.\n<code>$username</code> - Mostra seu nome de usuário.\n\nVocê pode cancelar esse comando à qualquer momento usando /cancel",
+          "saved": "Cabeçalho salvo com sucesso.",
+          "need_value_var": "Sua mensagem precisa conter a variável <code>$value</code>.",
+          "button": "✏️ Alterar cabeçalho"
+        },
+        "reset": {
+          "button": "↩️ Voltar ao padrão",
+          "template": "*$firstname* está vendendo uma mensagem por *$valuec*",
+          "success": "Você redefiniu a mensagem para o padrão."
+        }
+      },
+      "payment": {
+        "body": "💵 Pagamento Único:\n\nDefina se você quer que suas mensagens sejam cobradas apenas uma vez por usuário ou se eles deverão pagar sempre que comprarem a mesma mensagem.",
+        "button": "💵 Pagamentos",
+        "single_payment": "Compra única",
+        "multiple_payment": "Compra recorrente"
+      },
+      "language": {
+        "body": "🔤 Idioma:\n\nEscolha seu idioma a partir da lista abaixo.",
+        "button": "🔤 Idioma",
+        "success": "Idioma alterado com sucesso."
+      }
+    },
+    "restore": {
+      "body": "ℹ Restauração de conta\n\nResponda essa mensagem com a sua chave de backup para realizar a restauração.\n<i>Para cancelar a restauração, use o comando /cancel</i>",
+      "success": "Sua conta foi restaurada com sucesso!",
+      "invalid_key": "Não foi possível restaurar sua conta pois sua chave está inválida.",
+      "different_key": "Não foi possível restaurar sua conta pois essa chave não pertence à você.",
+      "error": "Não foi possível restaurar sua conta. Contate @andrrms para informar esse erro."
+    },
+    "help": {
+      "standard": "Este é o Private Messages, um bot para comprar e vender mensagens pagas. Este bot é apenas uma brincadeira, visto que sua economia não possui nenhum valor real.\nAo criar sua conta, você começa com 750 moedas e pode gastá-las em outras mensagens pagas para poder ler elas. Para vender uma mensagem, basta digitar o usuário do bot, sucedido da mensagem que você quer vender. Opções de valores serão mostradas assim que digitares a mensagem. Novas funcionalidades serão adicionadas em breve.\n\nEste bot foi escrito por @andrrms usando NodeJS + Typescript e está publicado sobre licensa <i>GPLv3.0</i>. Você pode encontrar o repositório <a href=\"\">aqui</a>. Você pode colaborar com traduções <a href=\"\">por aqui</a>.",
+      "header": "ℹ️ Sobre cabeçalhos\n\nOs cabeçalhos de mensagem são textos personalizados que aparecem na sua mensagem paga. Eles geralmente são usados para deixar a venda mais característica do dono ou descrever a mensagem que está sendo vendida. Você pode usar variáveis para mostrar valores no seu cabeçalho, como por exemplo o seu saldo total ou o seu primeiro nome. Ao escrever um cabeçalho customizado, você <b>deve</b> incluir a variável <code>$value</code>, que mostra o valor da mensagem a ser pago. Isto serve para previnir possíveis clickbaits.\n\nAs variáveis que você pode usar são:\n<code>$value</code> (obrigatório) - Mostra o valor da mensagem a ser vendida.\n<code>$totalamount</code> - Mostra o seu saldo total.\n<code>$firstname</code> - Mostra o seu primeiro nome.\n<code>$username</code> - Mostra seu nome de usuário."
+    }
+  },
+
+  "__COMMENT__": "[=====> COMMON SECTION <=====]",
+  "common": {
+    "user_not_found": "O usuário em questão não foi encontrado.",
+    "command_error": "Ocorreu um erro ao executar este comando.",
+    "generic_error": "Ocorreu um erro.",
+    "admin_only": "Você não tem permissão para usar este comando.",
+    "back_button": "Voltar",
+    "not_saved": "As modificações não foram salvas.",
+    "message_on_private": "Você deve usar esse comando no <a href=\"https://t.me/${username}\">chat privado</a> comigo.",
+    "not_enough_amount": "Você não tem saldo suficiente."
+  },
+
+  "__COMMENT__": "[=====> SYSTEM SECTION <=====]",
+  "system": {
+    "callback_query": {
+      "buy_notification": "<a href=\"tg://user?id=${user_id}\">${from_name}</a> comprou sua mensagem por <b>${value}</b> moedas.",
+      "error": "Ocorreu um erro ao registrar o pagamento."
+    },
+    "inline_query": {
+      "sell_for": "Vender por ${value}c",
+      "buy_for": "Comprar por ${value}c",
+      "sell_message": "Vender uma mensagem",
+      "user_balance": "Seu saldo: ${balance}c",
+      "too_long": "Mensagem muito longa."
+    },
+    "new_member": {
+      "welcome_message": {
+        "group_enabled": "Bot configurado com sucesso. Para começar usar, inicie uma conversa comigo.\n\nEste grupo está habilitado para usar o Pole Canaria.",
+        "group_disabled": "Bot configurado com sucesso. Para começar usar, inicie uma conversa comigo.\n\nEste grupo não está habilitado para usar o Pole Canaria."
+      }
+    }
+  },
+
+  "__COMMENT__": "[=====> DEVELOPER SECTION <=====]",
+  "dev": {
+    "helloworld": "Olá mundo.",
+    "replace": "Precisa ser substituído nas listas de tradução."
+  }
+}

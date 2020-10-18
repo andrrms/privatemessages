@@ -4,6 +4,8 @@ import { UserServices } from '../../database/services';
 import JWT from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
+dotenv.config();
+
 const service = new UserServices();
 
 export const RestoreCommandScene = new BaseScene<TContextWithState>('restore');
@@ -11,18 +13,15 @@ export const RestoreCommandScene = new BaseScene<TContextWithState>('restore');
 RestoreCommandScene.enter((ctx) => {
   if (ctx.message && ctx.message.from) {
     if (ctx.state.chat_is_private) {
-      ctx.reply(
-        'ℹ Restauração de conta\n\n' +
-        'Responda essa mensagem com a sua chave de backup para realizar a restauração\\.\n' +
-        '_Para cancelar a restauração, use o comando /cancel_',
+      ctx.reply(ctx.i18n.t('commands.restore.body'),
         {
           reply_to_message_id: ctx.message.message_id,
-          parse_mode: 'MarkdownV2'
+          parse_mode: 'HTML'
         }
       );
     } else {
-      ctx.reply('Você só pode restaurar sua conta no chat privado comigo.',
-        { reply_to_message_id: ctx.message.message_id });
+      ctx.reply(ctx.i18n.t('common.message_on_private', { username: process.env.BOT_USERNAME }),
+        { reply_to_message_id: ctx.message.message_id, parse_mode: 'HTML' });
       ctx.scene.leave();
     }
   }
@@ -37,7 +36,7 @@ RestoreCommandScene.on('message', async (ctx) => {
     JWT.verify(token, secret, async (err, decoded) => {
       if (err) {
         console.log(err);
-        ctx.reply('Não foi possível restaurar sua conta pois sua chave está inválida.');
+        ctx.reply(ctx.i18n.t('commands.restore.invalid_key'));
         return ctx.scene.leave();
       }
 
@@ -53,14 +52,14 @@ RestoreCommandScene.on('message', async (ctx) => {
         });
 
         if (merge.response) {
-          ctx.reply('Sua conta foi restaurada com sucesso!');
+          ctx.reply(ctx.i18n.t('commands.restore.success'));
           return ctx.scene.leave();
         } else {
-          ctx.reply('Não foi possível restaurar sua conta. Contate @andrrms para informar esse erro.');
+          ctx.reply(ctx.i18n.t('commands.restore.error'));
           return ctx.scene.leave();
         }
       } else {
-        ctx.reply('Não foi possível restaurar sua conta pois essa chave não pertence à você.');
+        ctx.reply(ctx.i18n.t('commands.restore.different_key'));
         return ctx.scene.leave();
       }
     });

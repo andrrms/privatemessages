@@ -33,36 +33,36 @@ export default async function InlineQueryListener(ctx: TContextWithState) {
           results.push({
             type: 'article',
             id: `sellMsg_${value}_${ucid}`,
-            title: `Vender por ${value}c`,
+            title: ctx.i18n.t('system.inline_query.sell_for', { value }),
             description: query,
-            input_message_content: createMessage(sell_msg, pay_once, {
+            input_message_content: createMessage(ctx, sell_msg, pay_once, {
               firstname: first_name,
               username: username,
               totalamount: balance,
               value: value
             }),
-            reply_markup: answerKeyboard(value, ucid),
+            reply_markup: answerKeyboard(ctx, value, ucid),
           });
         });
 
         ctx.answerInlineQuery(results, {
           cache_time: 0,
           is_personal: true,
-          switch_pm_text: `Seu saldo: ${balance}c`,
+          switch_pm_text: ctx.i18n.t('system.inline_query.user_balance', { balance }),
           switch_pm_parameter: 'showBlc'
         });
 
         // Else show message to long
       } else if (query.length > 200) {
         ctx.answerInlineQuery([], {
-          switch_pm_text: 'Mensagem muito longa.',
+          switch_pm_text: ctx.i18n.t('system.inline_query.too_long'),
           switch_pm_parameter: 'tooLong_null'
         });
         // Else show custom message button and user balance
       }
     } else {
       ctx.answerInlineQuery([], {
-        switch_pm_text: 'Você precisa iniciar o bot.',
+        switch_pm_text: 'You must start the bot.',
         switch_pm_parameter: `newUser_${ctx.chat?.id}`
       });
     }

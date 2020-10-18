@@ -1,4 +1,4 @@
-import { DataTransport, ISellMsg } from './interfaces';
+import { DataTransport, ISellMsg, TContextWithState } from './interfaces';
 import DataCodes from '../constants/dataCodes.json';
 import { InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
 
@@ -81,8 +81,8 @@ export function parseSellMessage(message: string, params: Partial<ISellMsg>) {
   return msg;
 }
 
-export function createMessage(message: string, pay_once: boolean, params: Partial<ISellMsg>) {
-  const POtxt = pay_once ? 'Compra única' : 'Compra recorrente';
+export function createMessage(ctx: TContextWithState, message: string, pay_once: boolean, params: Partial<ISellMsg>) {
+  const POtxt = pay_once ? ctx.i18n.t('commands.settings.payment.single_payment') : ctx.i18n.t('commands.settings.payment.multiple_payment');
   const POlink = pay_once ? 'https://t.me/heimerdingerbot?start=payonce' : 'https://t.me/heimerdingerbot?start=paymult';
   return {
     message_text: `${parseSellMessage(message, params)}\n\n[${POtxt}](${POlink})`,
@@ -90,16 +90,16 @@ export function createMessage(message: string, pay_once: boolean, params: Partia
   }
 }
 
-export function answerKeyboard(value: number, ucid: string): InlineKeyboardMarkup {
+export function answerKeyboard(ctx: TContextWithState, value: number, ucid: string): InlineKeyboardMarkup {
   return {
     inline_keyboard: [
       [
         {
-          text: `Comprar por ${value}c`,
+          text: ctx.i18n.t('system.inline_query.buy_for', { value }),
           callback_data: `buyMsg_${value}_${ucid}`
         },
         {
-          text: 'Vender uma mensagem',
+          text: ctx.i18n.t('system.inline_query.sell_message'),
           switch_inline_query_current_chat: ''
         }
       ]

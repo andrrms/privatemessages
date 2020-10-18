@@ -3,8 +3,6 @@
 
 Private Messages is a bot built using [Telegraf](https://github.com/telegraf/telegraf) and NodeJS. Its purpose is to create and manage paid messages, using its own currency. To access messages and their resources, the user must start the bot using the `/start` command.
 
-*Have in mind: I know that the organization of the files is bad and messy, but I am changing that little by little. When this message disappears, the mess will also disappear.*
-
 # Instalation
 You can use the following commands to run this bot on a local machine:
 ```

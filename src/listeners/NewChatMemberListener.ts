@@ -11,17 +11,9 @@ export default async function NewChatMemberListener(ctx: TContextWithState) {
       const membersCount = await ctx.getChatMembersCount();
 
       if (membersCount > 25) {
-        ctx.reply(
-          'Bot configurado com sucesso. ' +
-          'Para começar usar, inicie uma conversa comigo.\n\n' +
-          'Este grupo está habilitado para usar o Pole Canaria.'
-        );
+        ctx.reply(ctx.i18n.t('system.new_member.welcome_message.group_enabled'));
       } else {
-        ctx.reply(
-          'Bot configurado com sucesso. ' +
-          'Para começar usar, inicie uma conversa comigo.\n\n' +
-          'Este grupo não está habilitado para usar o Pole Canaria.'
-        );
+        ctx.reply(ctx.i18n.t('system.new_member.welcome_message.group_disabled'));
       }
     }
   }

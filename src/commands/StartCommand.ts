@@ -9,39 +9,27 @@ export default async function StartCommand(ctx: TContextWithState) {
     const { method } = parsePayload(ctx.message.text.substr(7));
 
     if (method) {
+      console.log(method);
+
       switch (method) {
-        case 'newUser':
-          return ctx.reply(
-            'Olá 😄\n' +
-            'Esse é o Private Messages, um bot feito para comprar e vender mensagens pagas.\n\n' +
-            'Se precisar de ajuda, você pode usar o comando /help'
-          );
         case 'showBlc':
           const amount = await service.getBalance(ctx.message.from.id);
 
           if (amount.response && amount.payload) {
             const coins = await amount.payload;
 
-            return ctx.reply(`Seu saldo é de *${coins}* moedas\\.`, { parse_mode: 'MarkdownV2' });
+            return ctx.reply(ctx.i18n.t('commands.balance.self_amount', { coins }), { parse_mode: 'HTML' });
           } else {
-            return ctx.reply('Não foi possível obter seu saldo.');
+            return ctx.reply(ctx.i18n.t('commands.balance.error'));
           }
         case 'payonce':
-          return ctx.reply(
-            'ℹ️ *Pagamento único*\n\n' +
-            'A mensagem que o usuário está vendendo está em modo de pagamento único\\. ' +
-            'Isso significa que, ao comprar a mensagem, você só será cobrado ' +
-            'uma única vez, mesmo se comprar novamente a mesma mensagem\\.',
-            { parse_mode: 'MarkdownV2' }
-          );
+          return ctx.reply(ctx.i18n.t('commands.start.payment.once'), {
+            parse_mode: 'HTML'
+          });
         case 'paymult':
-          return ctx.reply(
-            'ℹ️ *Pagamento recorrente*\n\n' +
-            'A mensagem que o usuário está vendendo está em modo de pagamento recorrente\\. ' +
-            'Isso significa que, ao comprar a mensagem, você será cobrado ' +
-            'múltiplas vezes sempre que clicar em comprar mensagem\\.',
-            { parse_mode: 'MarkdownV2' }
-          );
+          return ctx.reply(ctx.i18n.t('commands.start.payment.multiple'), {
+            parse_mode: 'HTML'
+          });
         default:
           break;
       }
@@ -55,9 +43,9 @@ export default async function StartCommand(ctx: TContextWithState) {
     });
 
     if (createUser.response === true) {
-      return ctx.reply('Olá, seja bem vindo ao Private Messages. Caso tenha dúvidas, você pode usar o comando /help');
+      return ctx.reply(ctx.i18n.t('commands.start.user.new'));
     } else {
-      return ctx.reply('Já nos conhecemos, não?');
+      return ctx.reply(ctx.i18n.t('commands.start.user.existing'));
     }
   }
 }

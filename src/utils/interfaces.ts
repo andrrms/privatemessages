@@ -1,4 +1,5 @@
 import DataCodes from '../constants/dataCodes.json';
+import i18n from 'telegraf-i18n';
 import { Context } from 'telegraf';
 import { Debugger } from 'debug';
 
@@ -16,6 +17,7 @@ export interface User {
   is_admin: boolean;
   pay_once: boolean;
   notifications: boolean;
+  language: string;
 
   ouro: number;
   prata: number;
@@ -61,6 +63,7 @@ export type TContextWithState = Context & {
   },
   scene: any;
   session: any;
+  i18n: i18n;
 }
 
 export interface ISellMsg {

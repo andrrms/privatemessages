@@ -21,6 +21,7 @@ async function caseBuyMsg(ctx: TContextWithState, payload: string) {
       // If the buyer is the seller
       if (parseInt(msg.payload['from_user_id']) === user_id) {
         console.log('no need, payment is from itself');
+
         return ctx.answerCbQuery(unescape(msg.payload['message']), true);
       }
 
@@ -37,18 +38,24 @@ async function caseBuyMsg(ctx: TContextWithState, payload: string) {
             const notifUser = seller.payload['notifications'] === 1 ? true : false;
 
             if (notifUser) {
-              ctx.telegram.sendMessage(seller.payload['user_id'], `[${from_name}](tg://user?id=${user_id}) comprou sua mensagem por *${value}* moedas\\.`, {
-                parse_mode: 'MarkdownV2'
+              ctx.i18n.locale(seller.payload['language']);
+              ctx.telegram.sendMessage(seller.payload['user_id'], ctx.i18n.t('system.callback_query.buy_notification', {
+                user_id,
+                from_name,
+                value
+              }), {
+                parse_mode: 'HTML'
               });
+              ctx.i18n.locale(await (await userService.getUserLanguage(user_id)).payload);
               ctx.answerCbQuery(unescape(msg.payload['message']), true);
             } else {
               ctx.answerCbQuery(unescape(msg.payload['message']), true);
             }
           } else {
-            ctx.answerCbQuery('Ocorreu um erro ao registrar o pagamento.');
+            ctx.answerCbQuery(ctx.i18n.t('system.callback_query.error'));
           }
         } else {
-          ctx.answerCbQuery('Você não tem saldo suficiente.');
+          ctx.answerCbQuery(ctx.i18n.t('common.not_enough_amount'));
         }
       }
     } else {

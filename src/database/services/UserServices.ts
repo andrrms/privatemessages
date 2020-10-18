@@ -284,4 +284,28 @@ export default class UserServices {
       return createResponse("404");
     }
   }
+
+  async getUserLanguage(user_id: number) {
+    const user: User = await Controller.index(user_id);
+
+    return (user) ?
+      createResponse("200", user.language) :
+      createResponse("404");
+  }
+
+  async setUserLanguage(user_id: number, language: string) {
+    const user = await Controller.index(user_id);
+
+    if (user) {
+      const change = await Controller.update(user_id, {
+        language
+      });
+
+      return (change) ?
+        createResponse("200") :
+        createResponse("406");
+    } else {
+      return createResponse("404");
+    }
+  }
 }

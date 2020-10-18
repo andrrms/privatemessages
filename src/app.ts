@@ -17,10 +17,13 @@
  */
 
 // Imports
+import { resolve } from 'path';
 import Telegraf, { Stage } from 'telegraf';
 import { MenuMiddleware } from 'telegraf-inline-menu';
 import LocalSession from 'telegraf-session-local';
+import TelegrafI18n from 'telegraf-i18n';
 import UserIsBanned from './middlewares/UserIsBanned';
+import SetUserLanguage from './middlewares/SetUserLanguage';
 import InlineQueryListener from './listeners/InlineQueryListener';
 import ChosenResultListener from './listeners/ChosenResultListener';
 import CallbackQueryListener from './listeners/CallbackQueryListener';
@@ -29,6 +32,7 @@ import { TContextWithState } from './utils/interfaces';
 import { parseCommand } from './utils/util';
 import {
   StartCommand,
+  HelpCommand,
   BalanceCommand,
   SettingsCommand,
   SettingsCommandScene,
@@ -41,17 +45,27 @@ require('dotenv').config();
 // Instance bot
 const bot = new Telegraf<TContextWithState>(process.env.BOT_TOKEN || '<token>');
 
+// Instance i18n for translation
+export const i18n = new TelegrafI18n({
+  defaultLanguage: 'en-US',
+  allowMissing: false,
+  directory: resolve(__dirname, 'locales'),
+  defaultLanguageOnMissing: true,
+});
+
 // Define stage and scenes
 const stage = new Stage([SettingsCommandScene, RestoreCommandScene]);
 stage.command('cancel', ctx => {
-  ctx.reply('As modificações não foram salvas.')
+  ctx.reply(ctx.i18n.t('common.not_saved'))
   ctx.scene.leave();
 });
 
 // Define pre-command middlewares
 // E.g. Message checking
 bot.use(new LocalSession({ database: 'src/constants/localSession.json' }).middleware());
+bot.use(i18n.middleware());
 bot.use(stage.middleware());
+bot.use(SetUserLanguage);
 bot.use(UserIsBanned);
 bot.use(async (ctx, next) => {
   if (ctx.chat) {
@@ -64,7 +78,7 @@ bot.use(async (ctx, next) => {
 // Define commands
 bot.command(parseCommand('start'), StartCommand);
 bot.hears([/\/wallet (@\w+.)/g, /\/wallet/g], BalanceCommand);
-// TODO: Add /help command
+bot.hears([new RegExp(`/help@${process.env.BOT_USERNAME}`, 'g'), /\/help/, /\/help (.+)?/g], HelpCommand);
 // TODO: Add /commands command
 
 const menuMiddleware = new MenuMiddleware('/', SettingsCommand);
@@ -73,8 +87,10 @@ bot.command(parseCommand('settings'), async ctx => {
     menuMiddleware.replyToContext(ctx);
   } else {
     if (ctx.message) {
-      ctx.reply('Você deve usar esse comando no [chat privado](https://t.me/heimerdingerbot) comigo\\.', {
-        parse_mode: 'MarkdownV2',
+      ctx.reply(ctx.i18n.t('common.message_on_private', {
+        username: process.env.BOT_USERNAME
+      }), {
+        parse_mode: 'HTML',
         reply_to_message_id: ctx.message.message_id
       });
     }
@@ -104,10 +120,11 @@ console.log(menuMiddleware.tree());
 
 // Set commands and starts the bot
 bot.telegram.setMyCommands([
-  { command: '/start', description: 'Inicia o bot' },
-  { command: '/wallet', description: 'Mostra as informações da sua carteira' },
-  { command: '/settings', description: 'Mostra as configurações do bot' },
-  { command: '/restore', description: 'Restaura a sua conta se tiver uma chave de backup.' }
+  { command: '/start', description: 'Starts the bot' },
+  { command: '/help', description: 'Shows the help message' },
+  { command: '/wallet', description: 'Shows your wallet information' },
+  { command: '/settings', description: 'Shows the bot settings' },
+  { command: '/restore', description: 'Restores your account if you have a backup key' }
 ]);
 
 bot.startPolling();

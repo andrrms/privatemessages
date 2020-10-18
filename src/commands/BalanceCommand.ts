@@ -1,7 +1,8 @@
 import { TContextWithState } from '../utils/interfaces';
-import { UserServices } from '../database/services';
+import { PaymentServices, UserServices } from '../database/services';
 
 const service = new UserServices();
+const paymentService = new PaymentServices();
 
 export default async function BalanceCommand(ctx: TContextWithState) {
   if (ctx.message && ctx.message.from && ctx.message.text) {
@@ -17,28 +18,40 @@ export default async function BalanceCommand(ctx: TContextWithState) {
           const target = await service.getUserFromUsername((unm.startsWith('@')) ? unm.substr(1) : unm);
 
           if (target.response && target.payload) {
-            ctx.reply(`O saldo de *${target.payload['first_name']}* é de *${target.payload['coins']}* moedas\\.`, {
-              parse_mode: 'MarkdownV2'
+            ctx.reply(ctx.i18n.t('commands.balance.user_amount', {
+              first_name: target.payload['first_name'],
+              coins: target.payload['coins']
+            }), {
+              parse_mode: 'HTML'
             });
           } else {
-            ctx.reply('Usuário não encontrado.');
+            ctx.reply(ctx.i18n.t('common.user_not_found'));
           }
         } else {
-          ctx.reply('Apenas administradores do bot podem ver o saldo de outros usuários. :/');
+          ctx.reply(ctx.i18n.t('common.admin_only'));
         }
       } else {
         const target = await service.getUserFromId(ctx.message.from.id);
 
         if (target.response && target.payload) {
-          ctx.reply(`O seu saldo é de *${target.payload['coins']}* moedas\\.`, {
-            parse_mode: 'MarkdownV2'
-          })
+          const targetPayments = await paymentService.countPaymentsFromUser(parseInt(target.payload['user_id']));
+
+          if (targetPayments.response) {
+            console.log(targetPayments.payload);
+
+            ctx.reply(ctx.i18n.t('commands.balance.self_amount', {
+              coins: target.payload['coins'],
+              buys: (targetPayments.payload === undefined) ? 0 : targetPayments.payload
+            }), {
+              parse_mode: 'HTML'
+            });
+          }
         } else {
-          ctx.reply('Ocorreu um erro ao obter seu saldo.');
+          ctx.reply(ctx.i18n.t('common.command_error'));
         }
       }
     } else {
-      ctx.reply('Ocorreu um erro ao obter seu saldo.');
+      ctx.reply(ctx.i18n.t('common.command_error'));
     }
   }
 }

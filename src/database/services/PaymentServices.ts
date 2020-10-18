@@ -54,4 +54,13 @@ export default class PaymentServices {
       return createResponse("404", "User not found");
     }
   }
+
+  async countPaymentsFromUser(user_id: number) {
+    const payments: Payment[] = await Controller.index();
+    let count = 0;
+    payments.forEach(payment => {
+      if (payment.buyer_id === user_id) count++;
+    });
+    return createResponse("200", count);
+  }
 }
