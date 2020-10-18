@@ -5,7 +5,7 @@ module.exports =
   (process.env.NODE_ENV === 'PRODUCTION') ?
     {
       client: 'pg',
-      connection: process.env.DATABASE_URL,
+      connection: process.env.HEROKU_POSTGRESQL_GRAY_URL,
       migrations: {
         directory: path.join(__dirname, 'src', 'database', 'migrations'),
       },
