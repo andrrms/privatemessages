@@ -61,6 +61,7 @@
     "resolveJsonModule": true,
   },
   "include": [
+    "*",
     "src/*",
     "src/locales/*.json",
     "src/constants/*.json"
