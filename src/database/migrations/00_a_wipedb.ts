@@ -5,3 +5,7 @@ export const up = async (knex: knex) => {
   await knex.schema.dropTable('payments');
   return await knex.schema.dropTable('messages');
 }
+
+export const down = async (knex: knex) => {
+
+}
