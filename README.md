@@ -1,5 +1,5 @@
 # Private Messages bot
-[![Known Vulnerabilities](https://snyk.io/test/github/AndreoliBR/privmsgbot/badge.svg)](https://snyk.io/test/github/AndreoliBR/privmsgbot)
+[![Known Vulnerabilities](https://snyk.io/test/github/AndreoliBR/privatemessages/badge.svg)](https://snyk.io/test/github/AndreoliBR/privatemessages)
 
 Private Messages is a bot built using [Telegraf](https://github.com/telegraf/telegraf) and NodeJS. Its purpose is to create and manage paid messages, using its own currency. To access messages and their resources, the user must start the bot using the `/start` command.
 
