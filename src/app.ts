@@ -30,6 +30,7 @@ import CallbackQueryListener from './listeners/CallbackQueryListener';
 import NewChatMemberListener from './listeners/NewChatMemberListener';
 import { TContextWithState } from './utils/interfaces';
 import { parseCommand } from './utils/util';
+import db from './database/connection';
 import {
   StartCommand,
   HelpCommand,
