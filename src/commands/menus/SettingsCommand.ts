@@ -253,9 +253,13 @@ languageSubmenu.choose('lang', languages, {
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
       const set = await setLanguage(ctx.callbackQuery.from.id, languages[key]);
       if (set) {
+        console.log('mudou idioma');
+
         ctx.answerCbQuery(ctx.i18n.t('commands.settings.language.success'));
         return '..';
       } else {
+        console.log('erro ao mudar', set, key);
+
         ctx.answerCbQuery(ctx.i18n.t('common.generic_error'));
         return '..';
       }
