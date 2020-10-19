@@ -33,7 +33,7 @@ async function getNotifications(ctx: TContextWithState) {
     const user = await service.getUserFromId(ctx.callbackQuery.from.id);
 
     if (user.response && user.payload) {
-      const notif = user.payload['notifications'] === 1 ? true : false;
+      const notif = user.payload['notifications'] === 1 || user.payload['notifications'] === true ? true : false;
       return notif;
     } else {
       throw new Error('Não foi possível obter user payload');
