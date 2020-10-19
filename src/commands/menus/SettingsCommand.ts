@@ -210,6 +210,9 @@ payonceSubmenu.select('pmts', paytypes, {
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
       const set = await setPayOnce(ctx.callbackQuery.from.id, JSON.parse(key));
 
+      console.log(ctx, key);
+
+
       if (set) {
         return true;
       } else {
@@ -222,6 +225,8 @@ payonceSubmenu.select('pmts', paytypes, {
   isSet: async (ctx, key) => {
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
       const isPayOnce = await getPayOnce(ctx.callbackQuery.from.id);
+      console.log('ispayonce', isPayOnce);
+
 
       if (isPayOnce === JSON.parse(key)) {
         return true;
@@ -250,18 +255,12 @@ const languages: Record<string, any> = {
 
 languageSubmenu.choose('lang', languages, {
   do: async (ctx, key) => {
-    console.log(ctx, key);
-
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
       const set = await setLanguage(ctx.callbackQuery.from.id, languages[key]);
       if (set) {
-        console.log('mudou idioma');
-
         ctx.answerCbQuery(ctx.i18n.t('commands.settings.language.success'));
         return '..';
       } else {
-        console.log('erro ao mudar', set, key);
-
         ctx.answerCbQuery(ctx.i18n.t('common.generic_error'));
         return '..';
       }

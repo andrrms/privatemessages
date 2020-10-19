@@ -65,6 +65,6 @@
     "src/*",
     "src/locales/*.json",
     "src/constants/*.json",
-    "src/database/migrations"
+    "src/database/migrations",
   ]
 }
