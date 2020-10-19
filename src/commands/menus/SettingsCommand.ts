@@ -147,7 +147,7 @@ const headermsgSubmenu = new MenuTemplate<TContextWithState>(
 export const headermsgQuestion = new BaseScene<TContextWithState>('cngheader');
 
 headermsgQuestion.enter(ctx => {
-  ctx.replyWithMarkdown(ctx.i18n.t('commands.settings.header.new.body'),
+  ctx.replyWithMarkdown(ctx.i18n.t('commands.settings.header.change.body'),
     Extra.HTML().markup(Markup.forceReply())
   );
 });
