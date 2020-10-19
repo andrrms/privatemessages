@@ -86,7 +86,8 @@ export function createMessage(ctx: TContextWithState, message: string, pay_once:
   const POlink = pay_once ? `https://t.me/${process.env.BOT_USERNAME}?start=payonce` : `https://t.me/${process.env.BOT_USERNAME}?start=paymult`;
   return {
     message_text: `${parseSellMessage(message, params)}\n\n[${POtxt}](${POlink})`,
-    parse_mode: 'Markdown'
+    parse_mode: 'Markdown',
+    disable_web_page_preview: true
   }
 }
 
