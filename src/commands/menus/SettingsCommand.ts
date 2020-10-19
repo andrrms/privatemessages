@@ -1,4 +1,4 @@
-import { Extra, Markup, BaseScene, Stage } from 'telegraf';
+import { Extra, Markup, BaseScene } from 'telegraf';
 import { MenuTemplate } from 'telegraf-inline-menu';
 import { TContextWithState } from '../../utils/interfaces';
 import { sellMsgHasValue } from '../../utils/util';
@@ -14,7 +14,7 @@ async function toggleNotifications(ctx: TContextWithState) {
     const user = await service.getUserFromId(ctx.callbackQuery.from.id);
 
     if (user.response && user.payload) {
-      const notif = user.payload['notifications'] === 1 ? true : false;
+      const notif = user.payload['notifications'] === 1 || user.payload['notifications'] === true ? true : false;
       const change = await service.setNotifications(parseInt(user.payload['user_id']), !notif);
 
       if (change.response) {
