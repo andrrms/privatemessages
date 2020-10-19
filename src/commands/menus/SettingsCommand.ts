@@ -250,6 +250,8 @@ const languages: Record<string, any> = {
 
 languageSubmenu.choose('lang', languages, {
   do: async (ctx, key) => {
+    console.log(ctx, key);
+
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
       const set = await setLanguage(ctx.callbackQuery.from.id, languages[key]);
       if (set) {
