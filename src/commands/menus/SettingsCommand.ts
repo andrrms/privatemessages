@@ -75,7 +75,7 @@ async function getPayOnce(user_id: number) {
   const user = await service.getUserFromId(user_id);
 
   if (user.response && user.payload) {
-    return user.payload['pay_once'] === 1 ? true : false;
+    return user.payload['pay_once'] === 1 || user.payload['pay_once'] === true ? true : false;
   } else {
     throw new Error('Não foi possível obter user payload');
   }
