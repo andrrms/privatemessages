@@ -210,7 +210,7 @@ payonceSubmenu.select('pmts', paytypes, {
     if (ctx.callbackQuery && ctx.callbackQuery.from) {
       const set = await setPayOnce(ctx.callbackQuery.from.id, JSON.parse(key));
 
-      console.log(ctx, key);
+      console.log(set, key);
 
 
       if (set) {
