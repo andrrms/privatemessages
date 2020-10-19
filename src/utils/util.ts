@@ -83,7 +83,7 @@ export function parseSellMessage(message: string, params: Partial<ISellMsg>) {
 
 export function createMessage(ctx: TContextWithState, message: string, pay_once: boolean, params: Partial<ISellMsg>) {
   const POtxt = pay_once ? ctx.i18n.t('commands.settings.payment.single_payment') : ctx.i18n.t('commands.settings.payment.multiple_payment');
-  const POlink = pay_once ? 'https://t.me/heimerdingerbot?start=payonce' : 'https://t.me/heimerdingerbot?start=paymult';
+  const POlink = pay_once ? `https://t.me/${process.env.BOT_USERNAME}?start=payonce` : `https://t.me/${process.env.BOT_USERNAME}?start=paymult`;
   return {
     message_text: `${parseSellMessage(message, params)}\n\n[${POtxt}](${POlink})`,
     parse_mode: 'Markdown'
