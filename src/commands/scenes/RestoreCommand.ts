@@ -44,6 +44,10 @@ RestoreCommandScene.on('message', async (ctx) => {
 
       const hasUser = await service.userExists(user_id);
 
+      console.log('hasuser', hasUser);
+      console.log('userid', user_id, userId);
+
+
       if (hasUser.payload && user_id === userId) {
         const merge = await service.mergeData(user_id, {
           coins,
