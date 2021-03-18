@@ -6,7 +6,7 @@ Private Messages is a bot built using [Telegraf](https://github.com/telegraf/tel
 # Instalation
 You can use the following commands to run this bot on a local machine:
 ```
-git clone https://github.com/AndreoliBR/privmsgbot.git folder-name
+git clone https://github.com/AndreoliBR/privatemessages.git folder-name
 cd folder-name
 yarn
 ```
