@@ -1,7 +1,7 @@
 {
   "name": "privatemessages",
   "email": "andremarcia4@gmail.com",
-  "url": "https://github.com/AndreoliBR/privmsgbot",
+  "url": "https://github.com/andrrms/privmsgbot",
   "version": "2.0.0",
   "main": "src/app.ts",
   "license": "GPL-3.0",
@@ -27,7 +27,6 @@
     "telegraf-inline-menu": "^5.1.0",
     "telegraf-session-local": "^2.0.0",
     "telegraf-stateless-question": "^1.0.0",
-    "telegram-text-entities-filler": "^0.2.0",
     "typescript": "^4.0.2"
   },
   "devDependencies": {
